@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav class="navbar navbar-expand navbar-dark bg-success">
+      <router-link :to="{ name: 'Employees' }" class="navbar-brand"
+        >Employee Manager</router-link
+      >
+      <div class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link :to="{ name: 'Create' }" class="nav-link"
+            >Add</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link :to="{ name: 'Employees' }" class="nav-link"
+            >View</router-link
+          >
+        </li>
+      </div>
+    </nav>
+    <div class="container mt-3">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "app",
+};
 </script>
 
 <style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+button {
+  margin: 2px !important;
+}
+button:hover {
+  text-decoration: none !important;
 }
 </style>
