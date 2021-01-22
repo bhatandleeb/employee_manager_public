@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'Employees' }" class="navbar-brand"
         >Employee Manager</router-link
       >
-      <div class="navbar-nav mr-auto">
+      <div class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link :to="{ name: 'Create' }" class="nav-link"
             >Add</router-link
@@ -38,9 +38,10 @@ export default {
 
 html {
   font-size: 100%;
+  overflow: hidden;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Georgia, Times, "Times New Roman", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -49,7 +50,26 @@ html {
 button {
   margin: 2px !important;
 }
-button:hover {
-  text-decoration: none !important;
+.nav-item {
+  padding: 3px;
+}
+.nav-link {
+  color: #ffffff !important;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+}
+
+.nav-link:hover {
+  color: #28a745 !important;
+  background-color: #ffffff;
+}
+
+.nav-link.router-link-exact-active.router-link-active {
+  color: #000000 !important;
+  background-color: #ffffff;
+}
+
+a:hover {
+  text-decoration: none;
 }
 </style>
