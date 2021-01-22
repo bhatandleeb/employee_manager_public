@@ -1,20 +1,7 @@
 <template>
   <div class="add-employee">
     <div class="container">
-      <div class="row mt-5">
-        <div class="col-md-12">
-          <h3 class="text-success text-center">Add Employee Details</h3>
-        </div>
-      </div>
-      <div class="row" v-if="!formValid">
-        <ui-alert
-          @dismiss="showAlert1 = false"
-          type="error"
-          v-show="showAlert1"
-        >
-          There are some errors. Please check &amp; correct them.
-        </ui-alert>
-      </div>
+      <Title title="Add Employee Details" />
       <form
         class="px-3 py-3"
         autocomplete="off"
@@ -88,7 +75,24 @@
         </div>
         <div class="row mt-5">
           <div class="col-md-12">
-            <v-button>Submit</v-button>
+            <ui-button
+              color="green"
+              class="material-icons"
+              icon="done"
+              size="normal"
+              raised
+              >Submit
+            </ui-button>
+            <ui-button
+              color="red"
+              class="material-icons"
+              icon="clear"
+              size="normal"
+              raised
+              buttonType="reset"
+              @click="resetForm"
+              >Cancel</ui-button
+            >
           </div>
         </div>
       </form>
@@ -97,10 +101,10 @@
 </template>
 
 <script>
-import Button from "@/components/Button.vue";
+import Title from "@/components/Title.vue";
 export default {
   components: {
-    "v-button": Button,
+    Title,
   },
   data: function () {
     return {
@@ -112,43 +116,60 @@ export default {
         joining_date: new Date(),
       },
       showAlert1: true,
-      formValid: true,
     };
   },
   methods: {
-    joiningFormatter: function (date) {
+    joiningFormatter(date) {
       let newDate = date.toISOString().split("T")[0];
       return newDate;
     },
-    onDateSelect: function () {
+    onDateSelect() {
       event.preventDefault();
     },
-    generateUid: function () {
+    generateUid() {
       let uuid = Math.floor(Math.random() * Date.now());
       return uuid * 100;
     },
-    get_data_localStorage: function () {
+    get_data_localStorage() {
       if (localStorage.getItem("employee_data")) {
         var data = JSON.parse(localStorage.getItem("employee_data"));
         return data;
       }
     },
-    onSubmit: function () {
+    resetForm() {
+      console.log("resetForm---");
+      //reset form
+      this.employee.id = null;
+      this.employee.employee_name = "";
+      this.employee.phone_number = "";
+      this.employee.email_id = "";
+      this.employee.joining_date = new Date();
+      //reset validation
+      this.$validator.pause();
+      this.$nextTick(() => {
+        this.$validator.errors.clear();
+        this.$validator.fields.items.forEach((field) => field.reset());
+        this.$validator.fields.items.forEach((field) =>
+          this.errors.remove(field)
+        );
+        this.$validator.resume();
+      });
+    },
+    onSubmit() {
+      console.log("onSubmit---");
       this.$validator.validate().then((success) => {
         if (!success) {
-          this.formValid = false;
           return;
         }
-        this.formValid = true;
 
         let json_object_data = {};
         const form = event.target;
         const formData = new FormData(form); // get all named inputs in form
         for (const [key, value] of formData) {
-          json_object_data[key] = value;
+          json_object_data["id"] = this.generateUid(); // generate unique id & add to obj
+          json_object_data[key] = value.trim();
         }
-        json_object_data["id"] = this.generateUid(); // generate unique id & add to obj
-        console.log("json_object_data---", json_object_data);
+        //console.log("json_object_data---", json_object_data);
 
         let data_save;
         if (window.localStorage.getItem("employee_data")) {
@@ -157,9 +178,10 @@ export default {
           data_save = new Array();
         }
         data_save.push(json_object_data);
-        console.log("data_save---", data_save);
-        window.localStorage.setItem("employee_data", JSON.stringify(data_save));
+        //console.log("data_save---", data_save);
+        window.localStorage.setItem("employee_data", JSON.stringify(data_save)); // save to local storage
         console.log("window.localStorage---", window.localStorage);
+        this.resetForm();
       });
     },
   },

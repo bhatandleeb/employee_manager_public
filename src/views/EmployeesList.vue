@@ -1,11 +1,7 @@
 <template>
   <div class="list-employees">
     <div class="container">
-      <div class="row mt-3">
-        <div class="col-md-12">
-          <h3 class="text-success text-center">Employee Details</h3>
-        </div>
-      </div>
+      <Title title="Employee Details" />
       <div class="row mt-3">
         <ui-confirm
           confirm-button-icon="delete"
@@ -26,6 +22,24 @@
           v-show="showAlert1"
         >
           Employee details deleted successfully.
+        </ui-alert>
+      </div>
+      <div class="row" v-if="isCreated">
+        <ui-alert
+          @dismiss="showAlert1 = false"
+          type="success"
+          v-show="showAlert1"
+        >
+          Employee details added successfully.
+        </ui-alert>
+      </div>
+      <div class="row" v-if="isEdited">
+        <ui-alert
+          @dismiss="showAlert1 = false"
+          type="success"
+          v-show="showAlert1"
+        >
+          Employee details updated successfully.
         </ui-alert>
       </div>
       <div class="row mt-3">
@@ -89,15 +103,20 @@
   </div>
 </template>
 
-
 <script>
+import Title from "@/components/Title.vue";
 export default {
+  components: {
+    Title,
+  },
   data: function () {
     return {
       employee_list: [],
       showAlert1: true,
       selectedId: null,
       isDeleted: false,
+      isCreated: false,
+      isEdited: false,
     };
   },
   mounted() {
