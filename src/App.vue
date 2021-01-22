@@ -1,22 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-success">
-      <router-link :to="{ name: 'Employees' }" class="navbar-brand"
-        >Employee Manager</router-link
-      >
-      <div class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link :to="{ name: 'Create' }" class="nav-link"
-            >Add</router-link
-          >
-        </li>
-        <li class="nav-item">
-          <router-link :to="{ name: 'Employees' }" class="nav-link"
-            >View</router-link
-          >
-        </li>
-      </div>
-    </nav>
+    <the-header></the-header>
     <div class="container mt-3">
       <router-view />
     </div>
@@ -24,8 +8,12 @@
 </template>
 
 <script>
+import TheHeader from "./components/TheHeader.vue";
 export default {
   name: "app",
+  components: {
+    TheHeader,
+  },
 };
 </script>
 
@@ -47,29 +35,12 @@ html {
   text-align: center;
   color: #2c3e50;
 }
-button {
-  margin: 2px !important;
-}
-.nav-item {
-  padding: 3px;
-}
-.nav-link {
-  color: #ffffff !important;
-  border: 1px solid #ffffff;
-  border-radius: 3px;
-}
-
-.nav-link:hover {
-  color: #28a745 !important;
-  background-color: #ffffff;
-}
-
-.nav-link.router-link-exact-active.router-link-active {
-  color: #000000 !important;
-  background-color: #ffffff;
-}
 
 a:hover {
   text-decoration: none;
+}
+
+button {
+  margin: 2px !important;
 }
 </style>

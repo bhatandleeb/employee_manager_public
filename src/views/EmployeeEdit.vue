@@ -1,7 +1,12 @@
 <template>
   <div class="edit-employee">
     <div class="container">
-      <Title title="Update Employee Details" />
+      <the-title title="Update Employee Details"></the-title>
+      <div class="row mt-3" v-if="isUpdated">
+        <success-alert
+          message="Employee details updated successfully!"
+        ></success-alert>
+      </div>
       <form
         class="px-3 py-3"
         autocomplete="off"
@@ -101,15 +106,18 @@
 </template>
 
 <script>
-import Title from "@/components/Title.vue";
+import TheTitle from "@/components/TheTitle.vue";
+import SuccessAlert from "@/components/SuccessAlert.vue";
 export default {
   components: {
-    Title,
+    TheTitle,
+    SuccessAlert,
   },
   data: function () {
     return {
       employee: {},
       showAlert1: true,
+      isUpdated: false,
     };
   },
   mounted() {
@@ -166,6 +174,7 @@ export default {
             );
           }
         }
+        this.isUpdated = true;
         this.get_data_localStorage(); // reload local storage
       });
     },

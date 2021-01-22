@@ -1,7 +1,7 @@
 <template>
   <div class="list-employees">
     <div class="container">
-      <Title title="Employee Details" />
+      <the-title title="Employee Details"></the-title>
       <div class="row mt-3">
         <ui-confirm
           confirm-button-icon="delete"
@@ -15,32 +15,10 @@
           Are you sure you want to delete the employee details?
         </ui-confirm>
       </div>
-      <div class="row" v-if="isDeleted">
-        <ui-alert
-          @dismiss="showAlert1 = false"
-          type="success"
-          v-show="showAlert1"
-        >
-          Employee details deleted successfully.
-        </ui-alert>
-      </div>
-      <div class="row" v-if="isCreated">
-        <ui-alert
-          @dismiss="showAlert1 = false"
-          type="success"
-          v-show="showAlert1"
-        >
-          Employee details added successfully.
-        </ui-alert>
-      </div>
-      <div class="row" v-if="isEdited">
-        <ui-alert
-          @dismiss="showAlert1 = false"
-          type="success"
-          v-show="showAlert1"
-        >
-          Employee details updated successfully.
-        </ui-alert>
+      <div class="row mt-3" v-if="isDeleted">
+        <success-alert
+          message="Employee details deleted successfully!"
+        ></success-alert>
       </div>
       <div class="row mt-3">
         <div class="table-responsive">
@@ -104,19 +82,18 @@
 </template>
 
 <script>
-import Title from "@/components/Title.vue";
+import TheTitle from "@/components/TheTitle.vue";
+import SuccessAlert from "@/components/SuccessAlert.vue";
 export default {
   components: {
-    Title,
+    TheTitle,
+    SuccessAlert,
   },
   data: function () {
     return {
       employee_list: [],
-      showAlert1: true,
       selectedId: null,
       isDeleted: false,
-      isCreated: false,
-      isEdited: false,
     };
   },
   mounted() {

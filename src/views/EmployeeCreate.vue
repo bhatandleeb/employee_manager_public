@@ -1,7 +1,12 @@
 <template>
   <div class="add-employee">
     <div class="container">
-      <Title title="Add Employee Details" />
+      <the-title title="Add Employee Details"></the-title>
+      <div class="row mt-3" v-if="isSubmitted">
+        <success-alert
+          message="Employee details added successfully!"
+        ></success-alert>
+      </div>
       <form
         class="px-3 py-3"
         autocomplete="off"
@@ -101,10 +106,12 @@
 </template>
 
 <script>
-import Title from "@/components/Title.vue";
+import TheTitle from "@/components/TheTitle.vue";
+import SuccessAlert from "@/components/SuccessAlert.vue";
 export default {
   components: {
-    Title,
+    TheTitle,
+    SuccessAlert,
   },
   data: function () {
     return {
@@ -116,6 +123,7 @@ export default {
         joining_date: new Date(),
       },
       showAlert1: true,
+      isSubmitted: false,
     };
   },
   methods: {
@@ -181,6 +189,7 @@ export default {
         //console.log("data_save---", data_save);
         window.localStorage.setItem("employee_data", JSON.stringify(data_save)); // save to local storage
         console.log("window.localStorage---", window.localStorage);
+        this.isSubmitted = true;
         this.resetForm();
       });
     },
