@@ -7,6 +7,28 @@
         </div>
       </div>
       <div class="row mt-3">
+        <ui-confirm
+          confirm-button-icon="delete"
+          confirm-button-text="Delete"
+          deny-button-text="Cancel"
+          ref="deleteConfirm"
+          title="Delete"
+          type="danger"
+          @confirm="onConfirmDelete"
+        >
+          Are you sure you want to delete the employee details?
+        </ui-confirm>
+      </div>
+      <div class="row" v-if="isDeleted">
+        <ui-alert
+          @dismiss="showAlert1 = false"
+          type="success"
+          v-show="showAlert1"
+        >
+          Employee details deleted successfully.
+        </ui-alert>
+      </div>
+      <div class="row mt-3">
         <div class="table-responsive">
           <table class="table table-bordered table-striped">
             <thead>
@@ -50,6 +72,7 @@
                     size="normal"
                     tooltip="Delete"
                     tooltip-position="bottom"
+                    @click="showConfirm('deleteConfirm', employee.id)"
                   ></ui-icon-button>
                 </td>
               </tr>
@@ -72,20 +95,41 @@ export default {
   data: function () {
     return {
       employee_list: [],
+      showAlert1: true,
+      selectedId: null,
+      isDeleted: false,
     };
   },
   mounted() {
     this.get_data_list();
   },
   methods: {
-    get_data_list: function () {
+    get_data_list() {
       this.employee_list = this.get_data_localStorage();
     },
-    get_data_localStorage: function () {
+    get_data_localStorage() {
       if (localStorage.getItem("employee_data")) {
         var data = JSON.parse(localStorage.getItem("employee_data"));
         return data;
       }
+    },
+    showConfirm(ref, id) {
+      this.selectedId = id; // get & set selected record id
+      this.$refs[ref].open();
+    },
+    onConfirmDelete() {
+      let employee_data_array = this.get_data_localStorage();
+      for (let i = 0; i < employee_data_array.length; i++) {
+        if (employee_data_array[i].id == this.selectedId) {
+          employee_data_array.splice(i, 1);
+          localStorage.setItem(
+            "employee_data",
+            JSON.stringify(employee_data_array)
+          );
+        }
+      }
+      this.isDeleted = true; // set isDeleted flag to true
+      this.get_data_list(); // reload local storage
     },
   },
 };
