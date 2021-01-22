@@ -33,7 +33,7 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody v-if="employee_list.length > 0">
+            <tbody v-if="employee_list && employee_list.length > 0">
               <tr v-for="(employee, index) in employee_list" :key="employee.id">
                 <td>{{ employee_list.length - index }}</td>
                 <td>{{ employee.employee_name }}</td>
