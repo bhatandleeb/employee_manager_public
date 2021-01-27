@@ -205,6 +205,7 @@ export default {
         localStorage.setItem("employee_data", JSON.stringify(data_save)); // save to local storage
         console.log("localStorage---", localStorage);
         this.resetForm();
+        //this.$router.push("/");
       });
     },
     onUpdate() {

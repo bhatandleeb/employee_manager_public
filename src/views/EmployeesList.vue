@@ -2,22 +2,18 @@
   <div class="list-employees">
     <div class="container">
       <the-title title="Employee Details"></the-title>
-      <div class="row mt-3">
-        <ui-confirm
-          confirm-button-icon="delete"
-          confirm-button-text="Delete"
-          deny-button-text="Cancel"
-          ref="deleteConfirm"
-          title="Delete"
-          type="danger"
-          @confirm="onConfirmDelete"
-        >
-          Are you sure you want to delete the employee details?
-        </ui-confirm>
-      </div>
-      <div class="row mt-3" v-if="isDeleted">
-        <success-alert :message="alertMessage"></success-alert>
-      </div>
+      <ui-snackbar-container ref="snackbarContainer"></ui-snackbar-container>
+      <ui-confirm
+        confirm-button-icon="delete"
+        confirm-button-text="Delete"
+        deny-button-text="Cancel"
+        ref="deleteConfirm"
+        title="Delete"
+        type="danger"
+        @confirm="onConfirmDelete"
+      >
+        Are you sure you want to delete the employee details?
+      </ui-confirm>
       <div class="row mt-3">
         <div class="table-responsive">
           <table class="table table-bordered table-striped">
@@ -81,18 +77,14 @@
 
 <script>
 import TheTitle from "@/components/TheTitle.vue";
-import SuccessAlert from "@/components/SuccessAlert.vue";
 export default {
   components: {
     TheTitle,
-    SuccessAlert,
   },
   data: function () {
     return {
       employee_list: [],
       selectedId: null,
-      isDeleted: false,
-      alertMessage: "",
     };
   },
   mounted() {
@@ -104,8 +96,8 @@ export default {
     },
     get_data_localStorage() {
       if (localStorage.getItem("employee_data")) {
-        var data = JSON.parse(localStorage.getItem("employee_data"));
-        return data;
+        let data = JSON.parse(localStorage.getItem("employee_data"));
+        return data.reverse(); //get latest record first
       }
     },
     showConfirm(ref, id) {
@@ -123,8 +115,12 @@ export default {
           );
         }
       }
-      this.isDeleted = true; // set isDeleted flag to true
-      this.alertMessage = "Employee details deleted successfully!"; // set isDeleted message
+      //create snackbar on delete
+      this.$refs.snackbarContainer.createSnackbar({
+        message: "Employee details deleted successfully!",
+        action: "",
+        duration: 5000,
+      });
       this.get_data_list(); // reload local storage
     },
   },
