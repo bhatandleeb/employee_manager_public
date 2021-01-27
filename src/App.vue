@@ -26,7 +26,7 @@ export default {
 
 html {
   font-size: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 #app {
   font-family: Georgia, Times, "Times New Roman", serif;

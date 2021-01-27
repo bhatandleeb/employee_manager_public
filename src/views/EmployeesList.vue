@@ -16,9 +16,7 @@
         </ui-confirm>
       </div>
       <div class="row mt-3" v-if="isDeleted">
-        <success-alert
-          message="Employee details deleted successfully!"
-        ></success-alert>
+        <success-alert :message="alertMessage"></success-alert>
       </div>
       <div class="row mt-3">
         <div class="table-responsive">
@@ -94,6 +92,7 @@ export default {
       employee_list: [],
       selectedId: null,
       isDeleted: false,
+      alertMessage: "",
     };
   },
   mounted() {
@@ -125,6 +124,7 @@ export default {
         }
       }
       this.isDeleted = true; // set isDeleted flag to true
+      this.alertMessage = "Employee details deleted successfully!"; // set isDeleted message
       this.get_data_list(); // reload local storage
     },
   },
