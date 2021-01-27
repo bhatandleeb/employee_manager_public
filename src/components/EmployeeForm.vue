@@ -1,5 +1,6 @@
 <template>
   <div class="form-employee">
+    <ui-snackbar-container ref="submitSnackbar"></ui-snackbar-container>
     <form
       class="px-3 py-3"
       autocomplete="off"
@@ -176,6 +177,23 @@ export default {
         this.$validator.resume();
       });
     },
+    createSnackbar() {
+      let sanackMessage;
+      if (this.isEdit) {
+        sanackMessage = "Employee details updated successfully!";
+      } else {
+        sanackMessage = "Employee details added successfully!";
+      }
+      //create snackbar on add/update
+      this.$refs.submitSnackbar.createSnackbar({
+        message: sanackMessage,
+        action: "View",
+        duration: 5000,
+        onActionClick: () => {
+          this.$router.push("/");
+        },
+      });
+    },
     onSubmit() {
       console.log("onSubmitCalled---");
       this.$validator.validate().then((isValid) => {
@@ -204,8 +222,9 @@ export default {
         //console.log("data_save---", data_save);
         localStorage.setItem("employee_data", JSON.stringify(data_save)); // save to local storage
         console.log("localStorage---", localStorage);
+        //create snackbar on add
+        this.createSnackbar();
         this.resetForm();
-        //this.$router.push("/");
       });
     },
     onUpdate() {
@@ -236,8 +255,9 @@ export default {
             );
           }
         }
+        //create snackbar on update
+        this.createSnackbar();
         this.get_data_localStorage(); // reload local storage
-        //this.$router.push('/');
       });
     },
   },
