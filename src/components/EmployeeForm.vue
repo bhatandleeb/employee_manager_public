@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     joiningFormatter(date) {
-      return date.toLocaleDateString("en-GB");
+      return date.toLocaleDateString("ja").replace(/\//g, "-");
     },
     onDateSelect() {
       event.preventDefault();
