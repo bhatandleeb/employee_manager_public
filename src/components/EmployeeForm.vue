@@ -127,8 +127,7 @@ export default {
   },
   methods: {
     joiningFormatter(date) {
-      let newDate = date.toISOString().split("T")[0];
-      return newDate;
+      return date.toLocaleDateString("en-GB");
     },
     onDateSelect() {
       event.preventDefault();
@@ -147,15 +146,15 @@ export default {
       if (localStorage.getItem("employee_data")) {
         let data = JSON.parse(localStorage.getItem("employee_data"));
         let empId = this.$route.params.id;
-        console.log("empId---", empId);
-        console.log("data---", data);
+        //console.log("empId---", empId);
+        //console.log("data---", data);
         let result = data.find((element) => element.id == empId);
-        console.log("result---", result);
+        //console.log("result---", result);
         this.employee = result;
       }
     },
     resetForm() {
-      console.log("resetForm---");
+      //console.log("resetForm---");
       if (this.isEdit) {
         this.get_particular_data();
         return;
@@ -195,9 +194,9 @@ export default {
       });
     },
     onSubmit() {
-      console.log("onSubmitCalled---");
+      //console.log("onSubmitCalled---");
       this.$validator.validate().then((isValid) => {
-        console.log("isValid---", isValid);
+        //console.log("isValid---", isValid);
         if (!isValid) {
           return;
         }
@@ -210,7 +209,7 @@ export default {
           json_object_data["id"] = this.generateUid(); // generate unique id & add to obj
           json_object_data[key] = value;
         }
-        console.log("json_object_data---", json_object_data);
+        //console.log("json_object_data---", json_object_data);
 
         let data_save;
         if (localStorage.getItem("employee_data")) {
@@ -221,16 +220,16 @@ export default {
         data_save.push(json_object_data);
         //console.log("data_save---", data_save);
         localStorage.setItem("employee_data", JSON.stringify(data_save)); // save to local storage
-        console.log("localStorage---", localStorage);
+        //console.log("localStorage---", localStorage);
         //create snackbar on add
         this.createSnackbar();
         this.resetForm();
       });
     },
     onUpdate() {
-      console.log("onUpdateCalled---");
+      //console.log("onUpdateCalled---");
       this.$validator.validate().then((isValid) => {
-        console.log("isValid---", isValid);
+        //console.log("isValid---", isValid);
         if (!isValid) {
           return;
         }
@@ -241,7 +240,7 @@ export default {
         for (const [key, value] of formData) {
           json_object_data[key] = value;
         }
-        console.log("json_object_data---", json_object_data);
+        //console.log("json_object_data---", json_object_data);
 
         let employee_data_array = this.get_data_localStorage();
         let empId = this.$route.params.id;
